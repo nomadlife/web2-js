@@ -19,9 +19,28 @@ document.querySelector('body').style.color='white';
 document.querySelector('body').style.backgroundColor='white';
 document.querySelector('body').style.color='black';
 ">
-<input type="button" name="" onclick="
-  if(document.querySelector('body').dataset.mode === 'day')
-">
+<input id="night_day" type="button" value="night" onclick="
+  var target = document.querySelector('body').style;
+  if(document.querySelector('#night_day').value === 'night'){
+    target.backgroundColor = 'black';
+    target.color = 'white';
+    document.querySelector('#night_day').value = 'day';
+  } else {
+    target.backgroundColor = 'white';
+    target.color = 'black';
+    document.querySelector('#night_day').value = 'night';
+  }">
+  <input  type="button" value="night mode" onclick="
+    var target = document.querySelector('body').style;
+    if(this.value === 'night mode'){
+      target.backgroundColor = 'black';
+      target.color = 'white';
+      this.value = 'day mode';
+    } else {
+      target.backgroundColor = 'white';
+      target.color = 'black';
+      this.value = 'night mode';
+    }">
 <div id="grid">
   <ol>
     <li> <a href="1.html">html</a></li>
@@ -35,7 +54,32 @@ document.querySelector('body').style.color='black';
     </p>
   </div>
 </div>
+<input type="button" value="night" onclick="
+  var target = document.querySelector('body').style;
+  if(this.value === 'night'){
+    target.backgroundColor = 'black';
+    target.color = 'white';
+    this.value = 'day';
 
+    var link = document.querySelectorAll('a');
+    var i = 0;
+    while(i<links.length){
+      links[i].style.color = 'powderblue';
+      i = i+1;
+    }
+  } else {
+    target.backgroundColor = 'white';
+    target.color = 'black';
+    this.value = 'night';
+
+    var link = document.querySelectorAll('a');
+    var i = 0;
+    while(i<links.length){
+      links[i].style.color = 'blue';
+      i = i+1;
+    }
+
+  }">
 
 
 
