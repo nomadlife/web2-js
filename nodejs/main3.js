@@ -39,7 +39,7 @@ var app = http.createServer(function(request,response){
     if(pathname === '/'){
         if(queryData.id === undefined){
           fs.readdir('./data',function(error,filelist){
-            console.log(filelist);
+            //console.log(filelist);
             var title = 'Welcome';
             var description = 'Hello, Node.js';
             var list = templateList(filelist);
@@ -103,8 +103,13 @@ var app = http.createServer(function(request,response){
         var title = queryData.id
         var list = templateList(filelist);
         var template = templateHTML(title,list,
-          `<h2>${title}</h2>${description}`,
-        `<a href="/update?id=${title}">update</a>`);
+          `<form action="http://localhost:3000/update_process" method="post">
+          <input type="text" name="id" value="${title}">
+          <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+          <p><textarea name="description" id="" cols="30" rows="10" placeholder="description">${description}</textarea></p>
+          <p><input type="submit"></p>
+      </form>`,
+        `<a href="/create">create</a><a href="/update?id=${title}">update</a>`);
           response.writeHead(200);
           response.end(template);
           })
