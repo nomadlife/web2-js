@@ -3,25 +3,6 @@ var fs = require('fs');
 var url = require('url');
 var qs = require('querystring');
 
-/*
-function templateHTML(title,list,body,control){
-  return `
-  <!doctype html>
-<html>
-<head>
-<title>WEB1 - ${title}</title>
-<meta charset="utf-8">
-</head>
-<body>
-<h1><a href="/">WEB</a></h1>
-${list}
-${control}
-${body}
-</body>
-</html>
-  `;
-}
-*/
 
 var template = {
   html:function(title,list,body,control){
@@ -33,7 +14,7 @@ var template = {
   <meta charset="utf-8">
   </head>
   <body>
-  <h1><a href="/">WEB</a></h1>
+  <h1><a href="/">WEB(main4.js)</a></h1>
   ${list}
   ${control}
   ${body}
@@ -53,18 +34,6 @@ var template = {
   }
 }
 
-/*
-function templateList(filelist){
-  var list = '<ul>';
-  var i=0;
-  while(i<filelist.length){
-    list = list+`<li><a href="/?id=${filelist[i]}"> ${filelist[i]} </a></li>`;
-    i=i+1;
-    }
-    list = list + '</ul>';
-  return list;
-}
-*/
 
 var app = http.createServer(function(request,response){
     var _url = request.url;
@@ -74,7 +43,6 @@ var app = http.createServer(function(request,response){
     if(pathname === '/'){
         if(queryData.id === undefined){
           fs.readdir('./data',function(error,filelist){
-            //console.log(filelist);
             var title = 'Welcome';
             var description = 'Hello, Node.js';
             var list = template.list(filelist);
