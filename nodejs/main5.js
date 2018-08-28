@@ -38,7 +38,7 @@ var app = http.createServer(function(request,response){
                 throw error;
               }
               console.log(topics);
-              db.query(`SELECT * FROM topic WHERE id=?`,[queryData.id], function(error2,topic){
+              db.query(`SELECT * FROM topic left join author on topic.author_id=author.id WHERE topic.id=?`,[queryData.id], function(error2,topic){
                 if(error2){
                   throw error2;
                 }
@@ -47,7 +47,7 @@ var app = http.createServer(function(request,response){
                 var description = topic[0].description;
                 var list = template.list(topics);
                 var html = template.html(title,list,
-                  `<h2>${title}</h2>${description}`,
+                  `<h2>${title}</h2> ${description} <p>by ${topic[0].name}</p>`,
                   `<a href="/create">create</a>
                   <a href="/update?id=${queryData.id}">update</a>
             <form action="delete_process" method="post">
@@ -61,13 +61,25 @@ var app = http.createServer(function(request,response){
         }
     } else if (pathname === '/create') {
       db.query(`SELECT * FROM topic`, function(error,topics){
-        var title = 'Welcome';
+        db.query(`SELECT * FROM suthor`)
+        var tag = '';
+        var i = 0;
+        while (i< authors.length){
+          tag += `<option value="${authors[i].id}">${authors[i].name}</option>`;
+          i++;
+        };
+        var title = 'Create';
         var description = 'Hello, Node.js';
         var list = template.list(topics);
         var html = template.html(title,list,
           `<form action="/create_process" method="post">
           <p><input type="text" name="title" placeholder="title"></p>
           <p><textarea name="description" id="" cols="30" rows="10" placeholder="description"></textarea></p>
+          <p> 
+          <select name='author'> 
+          ${tag}
+          </select>
+          </p>
           <p><input type="submit"></p>
           </form>`,
           `<a href="/create">create</a>`);
