@@ -39,7 +39,7 @@ module.exports = {
         i++;
       };
       return `
-      <select name='author'> 
+      <select name="author"> 
             ${tag}
             </select>
       `

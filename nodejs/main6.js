@@ -35,6 +35,8 @@ var app = http.createServer(function(request,response){
     }else if (pathname === '/author'){
         author.home(request, response);
 
+    }else if (pathname === '/author/create_process'){
+        author.create_process(request, response);
 
     }else {
         response.writeHead(404);
