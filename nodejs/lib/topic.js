@@ -1,4 +1,4 @@
-var template = require('./template5.js')
+var template = require('./template6.js')
 var db = require('./db')
 var url = require('url');
 var qs = require('querystring');
@@ -126,7 +126,7 @@ exports.update = function(request, response){
 
 exports.update_process = function(request, reponse){
     var body = '';
-    request.on('daya', function(data){
+    request.on('data', function(data){
         body = body + data;
     })
     request.on('end', function(){
