@@ -1,10 +1,10 @@
 module.exports = {
-  HTML:function(title, list, body, control){
+  HTML:function(list, body, control){
     return `
     <!doctype html>
     <html>
     <head>
-      <title>WEB1 - ${title}</title>
+      <title>WEB1 - Welcome</title>
       <meta charset="utf-8">
     </head>
     <body>
@@ -19,7 +19,7 @@ module.exports = {
     var list = '<ul>';
     var i = 0;
     while(i < filelist.length){
-      list = list + `<li><a href="/page/${filelist[i]}">${filelist[i]}</a></li>`;
+      list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
       i = i + 1;
     }
     list = list+'</ul>';
