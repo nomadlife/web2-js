@@ -10,6 +10,9 @@ var compression = require('compression');
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(compression());
+// app.use(function(request, response, next()){
+
+// })
 
 app.get('/', function(request, response){
   fs.readdir('./data', function(error, filelist){
