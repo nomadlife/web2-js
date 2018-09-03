@@ -8,7 +8,7 @@ module.exports = {
       <meta charset="utf-8">
     </head>
     <body>
-      <h1><a href="/">WEB</a></h1>
+      <h1><a href="/">WEB(main4)</a></h1>
       ${list}
       ${control}
       ${body}
