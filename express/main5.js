@@ -16,7 +16,7 @@ app.use(session({
   //secure: true, //for https connection
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store:new FileStore()
 }))
 
