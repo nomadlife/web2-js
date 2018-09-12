@@ -28,6 +28,7 @@ router.get('/login', function(request, response){
 })
 
 router.post('/login_process', function(request, response){
+  console.log('login procedure')
   var post = request.body;
   var email = post.email;
   var password = post.pwd;
