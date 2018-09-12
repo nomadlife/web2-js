@@ -6,13 +6,14 @@ var compression = require('compression');
 var session = require('express-session')
 var FileStore = require('session-file-store')(session)
 
+// middle wares
 var helmet = require('helmet');
 app.use(helmet())
-
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(compression());
 app.use(session({
+  //secure: true, //for https connection
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
