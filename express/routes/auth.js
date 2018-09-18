@@ -4,13 +4,9 @@ var path = require('path');
 var sanitizeHtml = require('sanitize-html');
 var qs = require('querystring');
 var fs = require('fs')
-var template = require('../lib/template5.js')
+var template = require('../lib/template')
 
-var authData = {
-  email:'test@gmail.com',
-  password:'111111',
-  nickname:'tester'
-}
+
 
 router.get('/login', function(request, response){
   var title = 'WEB - login';
@@ -27,6 +23,7 @@ router.get('/login', function(request, response){
   response.send(html);
 })
 
+/*
 router.post('/login_process', function(request, response){
   console.log('login procedure')
   var post = request.body;
@@ -41,8 +38,8 @@ router.post('/login_process', function(request, response){
   } else {
     response.sesnd('Who?');
   }
-
 })
+*/
 
 router.get('/logout', function(request,response){
   console.log('logout procedure')
