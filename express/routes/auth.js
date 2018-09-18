@@ -43,15 +43,26 @@ router.post('/login_process', function(request, response){
 
 router.get('/logout', function(request,response){
   console.log('logout procedure')
-  request.session.destroy(function(err){
-    if (err) {
-      console.error(err);
-    } else {
-      response.clearCookie('connect.sid');
-      response.redirect('/');
-    }
-  })
+  // request.session.destroy(function(err){
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     response.clearCookie('connect.sid');
+  //     response.redirect('/');
+  //   }
+  // })
 
+  request.logout();
+  response.redirect('/');
+
+  // request.logout(function(err){
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     response.clearCookie('connect.sid');
+  //     response.redirect('/');
+  //   }
+  // })
 })
 
   module.exports = router;

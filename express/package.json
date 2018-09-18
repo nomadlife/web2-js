@@ -29,5 +29,8 @@
     "passport-local": "^1.0.0",
     "sanitize-html": "^1.18.2",
     "session-file-store": "^1.2.0"
+  },
+  "nodemonConfig": {
+    "ignore": ["sessions/*.json"]
   }
 }
