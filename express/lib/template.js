@@ -9,7 +9,7 @@ module.exports = {
     </head>
     <body>
       ${authStatusUI}
-      <h1><a href="/">WEB(main5 for session)</a></h1>
+      <h1><a href="/">WEB(passport)</a></h1>
       ${list}
       ${control}
       ${body}

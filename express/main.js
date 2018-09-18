@@ -5,6 +5,9 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 var session = require('express-session')
 var FileStore = require('session-file-store')(session)
+var flash = require('connect-flash');
+
+
 
 // middle wares
 var helmet = require('helmet');
@@ -19,6 +22,19 @@ app.use(session({
   saveUninitialized: false,
   store:new FileStore()
 }))
+app.use(flash());
+app.get('/flash',function(req,res){
+  req.flash('info', 'Flash is back')
+  res.send('flash');
+})
+
+app.get('/flash-display', function(req,res){
+  var fmsg = req.flash();
+  console.log(fmsg);
+  res.send(fmsg);
+  
+  // res.render('index',{messages:req.flash('info')})
+})
 
 var authData = {
   email:'test@gmail.com',
@@ -73,7 +89,9 @@ passport.use(new LocalStrategy(
 app.post('/auth/login_process',
 passport.authenticate('local', {
   successRedirect:'/',
-  failureRedirect: '/auth/login'
+  failureRedirect: '/auth/login',
+  failureFlash:true,
+  successFlash:true
 }));
 
 
