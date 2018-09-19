@@ -1,0 +1,3 @@
+
+npm install -s lowdb
+npm install -s shortid
