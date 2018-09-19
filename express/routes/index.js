@@ -4,13 +4,12 @@ var template = require('../lib/template.js')
 var auth = require('../lib/auth')
 
 router.get('/', function(request, response){
-  console.log('/',request.user);
+  console.log(request.url);
     var fmsg = request.flash();
     var feedback = '';
     if (fmsg.success){
       feedback = fmsg.success[0];
     }
-    console.log('feedback:',feedback);
     
     var title = '';
     var description = 'Hello, Node.js';

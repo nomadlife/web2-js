@@ -36,63 +36,11 @@ app.get('/flash-display', function(req,res){
   // res.render('index',{messages:req.flash('info')})
 })
 
-var authData = {
-  email:'test@gmail.com',
-  password:'111111',
-  nickname:'tester'
-}
 
-var passport = require('passport'),
-LocalStrategy = require('passport-local').Strategy;
 
-app.use(passport.initialize())
-app.use(passport.session())
+var passport = require('./lib/passport')(app)
 
-passport.serializeUser(function(user, done) {
-  console.log('serializeUser',user);
-  done(null, user.email)
-  // done(null, user.id);
-});
 
-passport.deserializeUser(function(id, done) {
-  console.log('deserializeUser',id);
-  done(null, authData);
-  // User.findById(id, function(err, user) {
-  //   done(err, user);
-  // });
-});
-
-passport.use(new LocalStrategy(
-  {
-    usernameField: 'email',
-    passwordField: 'pwd'
-  },
-  function(username, password, done) {
-    console.log('LocalStrategy',username, password);
-    if(username === authData.email){
-      console.log(1);
-      if(password === authData.password){
-        console.log(2);
-        return done(null, authData);
-      }else{
-        console.log(3);
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-    }else{
-      console.log(4);
-      return done(null, false, { message: 'Incorrect username.' });
-    }
-    
-  }
-));
-
-app.post('/auth/login_process',
-passport.authenticate('local', {
-  successRedirect:'/',
-  failureRedirect: '/auth/login',
-  failureFlash:true,
-  successFlash:true
-}));
 
 
 
@@ -104,8 +52,8 @@ app.get('*',function(request, response, next){
 })
 
 var indexRouter = require('./routes/index');
-var topicRouter = require('./routes/topic')
-var authRouter = require('./routes/auth')
+var topicRouter = require('./routes/topic');
+var authRouter = require('./routes/auth')(passport);
 
 app.use('/',indexRouter);
 app.use('/topic', topicRouter);

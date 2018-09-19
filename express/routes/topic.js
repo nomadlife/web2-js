@@ -8,6 +8,7 @@ var template = require('../lib/template')
 var auth = require('../lib/auth')
 
 router.get('/create', function(request, response){
+  console.log(request.url);
   if(!auth.isOwner(request, response)){
     response.redirect('/auth/login');
     return false;
@@ -42,6 +43,7 @@ router.get('/create', function(request, response){
   })
   
   router.get('/update/:pageId', function(request,response){
+    console.log(request.url);
     if(!auth.isOwner(request, response)){
       response.redirect('/auth/login');
       return false;
@@ -97,6 +99,7 @@ router.get('/create', function(request, response){
   })
   
   router.get('/:pageId', function(request,response,next){
+    console.log(request.url);
     var filteredId = path.parse(request.params.pageId).base;
     fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
       if(err){
