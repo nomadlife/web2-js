@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var template = require('../lib/template')
 var auth = require('../lib/auth')
+var shortid = require('shortid');
 
 var low = require('lowdb');
 var FileSync = require('../node_modules/lowdb/adapters/FileSync');
@@ -68,12 +69,16 @@ module.exports = function (passport) {
     })
 
     router.post('/register_process', function (request, response) {
+      // todo : validation
+      // check email duplicaation check
+      // check if pwd,pwd2 are same
       var post = request.body;
       var email = post.email;
       var pwd = post.pwd;
       var pwd2 = post.pwd2;
       var displayName = post.displayName;
       db.get('users').push({
+        id:shortid.generate(),
         email:email,
         password:pwd,
         displayName:displayName
