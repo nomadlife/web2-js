@@ -1,25 +1,21 @@
 var express = require('express')
 var router = express.Router()
-var path = require('path');
-var sanitizeHtml = require('sanitize-html');
-var qs = require('querystring');
-var fs = require('fs')
 var template = require('../lib/template')
+var auth = require('../lib/auth')
 
+module.exports = function (passport) {
+  router.get('/login', function (request, response) {
+    auth.testLog(request, response)
 
-module.exports = function(passport){
-  router.get('/login', function(request, response){
-    console.log(request.url);
-    
-  var fmsg = request.flash();
-  var feedback = '';
-  if (fmsg.error){
-    feedback = fmsg.error[0];
-  }
-  
-  var title = 'WEB - login';
-  var list = template.list(request.list);
-  var html = template.HTML(title, list, `
+    var fmsg = request.flash();
+    var feedback = '';
+    if (fmsg.error) {
+      feedback = fmsg.error[0];
+    }
+
+    var title = 'WEB - login';
+    var list = template.list(request.list);
+    var html = template.HTML(title, list, `
   <div style="color:red;">${feedback}</div>
   <form action="/auth/login_process" method="post">
   <p><input type="text" name="email" placeholder="email"></p>
@@ -29,22 +25,22 @@ module.exports = function(passport){
   </p>
   </form>
   `, '');
-  response.send(html);
-})
+    response.send(html);
+  })
 
 
-router.post('/login_process',
-passport.authenticate('local', {
-  successRedirect:'/',
-  failureRedirect: '/auth/login',
-  failureFlash:true,
-  successFlash:true
-}));
+  router.post('/login_process',
+    passport.authenticate('local', {
+      successRedirect: '/',
+      failureRedirect: '/auth/login',
+      failureFlash: true,
+      successFlash: true
+    }));
 
-router.get('/logout', function(request,response){
-  request.logout();
-  response.redirect('/');
-})
+  router.get('/logout', function (request, response) {
+    request.logout();
+    response.redirect('/');
+  })
 
   return router;
 }
