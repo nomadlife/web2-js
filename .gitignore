@@ -1,2 +1,4 @@
 nodejs/lib/db.js
 express/sessions/
+nodejs/node_modules/
+express/node_modules/
