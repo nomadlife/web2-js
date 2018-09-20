@@ -13,5 +13,13 @@ module.exports = {
           authStatusUI = `${request.user.nickname}|<a href="/auth/logout">logout</a>`;
         }
         return authStatusUI;
+      },
+
+      testLog:function(request, response){
+        if(request.user){
+          console.log(request.url,request.user.nickname)
+        }else{
+          console.log(request.url)
+        };
       }
 }
