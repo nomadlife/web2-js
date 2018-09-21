@@ -26,7 +26,7 @@ module.exports = function (passport) {
   <input type="submit" value="login">
   </p>
   </form>
-  `, '');
+  `, '' ,auth.statusUI(request, response));
     response.send(html);
   })
 
