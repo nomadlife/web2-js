@@ -56,25 +56,25 @@ router.get('/update/:pageId', function (request, response) {
     response.redirect('/auth/login');
     return false;
   }
-  var filteredId = path.parse(request.params.pageId).base;
-  fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
+  var topic = db.get('topics').find({id:request.params.pageId}).value();
+console.log('test:',topic);
 
-    var title = request.params.pageId;
+    var title = topic.title;
+    var description = topic.description;
     var list = template.list(request.list);
     var html = template.HTML(title, list,
       `
       <form action="/topic/update_process" method="post">
-        <input type="hidden" name="id" value="${title}">
+        <input type="hidden" name="id" value="${topic.id}">
         <p><input type="text" name="title" placeholder="title" value="${title}"></p>
         <p><textarea name="description" placeholder="description">${description}</textarea></p>
         <p><input type="submit"></p>
       </form>
       `,
-      `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`,
+      `<a href="/topic/create">create</a> <a href="/topic/update/${topic.id}">update</a>`,
       auth.statusUI(request, response)
     );
     response.send(html);
-  });
 })
 
 router.post('/update_process', function (request, response) {
@@ -86,11 +86,21 @@ router.post('/update_process', function (request, response) {
   var id = post.id;
   var title = post.title;
   var description = post.description;
-  fs.rename(`data/${id}`, `data/${title}`, function (error) {
-    fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
-      response.redirect(`/topic/${title}`);
-    })
-  });
+  var topic = db.get('topics').find({id:id}).value();
+  if(topic.user_id !== request.user.id){
+    request.flash('error','not yours!');
+    return response.redirect('/');
+  }
+  db.get('topics').find({id:id}).assign({
+    title:title, description:description
+  }).write();
+  response.redirect(`/topic/${topic.id}`)
+
+  // fs.rename(`data/${id}`, `data/${title}`, function (error) {
+  //   fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
+  //     response.redirect(`/topic/${title}`);
+  //   })
+  // });
 })
 
 router.post('/delete_process', function (request, response) {
@@ -132,7 +142,7 @@ router.get('/:pageId', function (request, response, next) {
     <p>by ${user.displayName}</p>
     `,
     ` <a href="/topic/create">create</a>
-            <a href="/topic/update/${sanitizedTitle}">update</a>
+            <a href="/topic/update/${topic.id}">update</a>
             <form action="/topic/delete_process" method="post">
               <input type="hidden" name="id" value="${sanitizedTitle}">
               <input type="submit" value="delete">
