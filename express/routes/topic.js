@@ -57,7 +57,11 @@ router.get('/update/:pageId', function (request, response) {
     return false;
   }
   var topic = db.get('topics').find({id:request.params.pageId}).value();
-console.log('test:',topic);
+   
+  if(topic.user_id !== request.user.id){
+    request.flash('error','not yours!');
+    return response.redirect('/');
+  } 
 
     var title = topic.title;
     var description = topic.description;
@@ -110,10 +114,14 @@ router.post('/delete_process', function (request, response) {
   }
   var post = request.body;
   var id = post.id;
-  var filteredId = path.parse(id).base;
-  fs.unlink(`data/${filteredId}`, function (error) {
-    response.redirect('/');
-  })
+  var topic = db.get('topics').find({id:id}).value();
+  if(topic.user_id !== request.user.id){
+    request.flash('error','not yours!');
+    return response.redirect('/');
+  }
+  db.get('topics').remove({id:id}).write();
+  response.redirect('/');
+
 })
 
 router.get('/:pageId', function (request, response, next) {
@@ -144,7 +152,7 @@ router.get('/:pageId', function (request, response, next) {
     ` <a href="/topic/create">create</a>
             <a href="/topic/update/${topic.id}">update</a>
             <form action="/topic/delete_process" method="post">
-              <input type="hidden" name="id" value="${sanitizedTitle}">
+              <input type="hidden" name="id" value="${topic.id}">
               <input type="submit" value="delete">
             </form>`,
     auth.statusUI(request, response)
